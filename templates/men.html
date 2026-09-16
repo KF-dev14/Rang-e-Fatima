@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men Collection - Rang-e-Fatima</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: #ffffff; color: #111111; overflow-x: hidden; }
+        .top-bar { background-color: #000000; color: #ffffff; text-align: center; padding: 8px 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+        .main-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid #eeeeee; background: #ffffff; position: sticky; top: 0; z-index: 900; }
+        .header-left, .header-right { display: flex; align-items: center; gap: 15px; }
+        .icon-btn { background: none; border: none; font-size: 18px; color: #111111; cursor: pointer; text-decoration: none; }
+        .brand-logo a { text-decoration: none !important; color: #111111; text-align: center; display: block; }
+        .brand-logo h1 { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+        .brand-logo p { font-size: 9.5px; font-weight: 500; letter-spacing: 2.2px; color: #666666; margin-top: 1px; text-transform: uppercase; }
+
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.4); z-index: 1000; opacity: 0; visibility: hidden; transition: 0.3s; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        .sidebar-menu { position: fixed; top: 0; left: -400px; width: 380px; height: 100vh; background: #ffffff; z-index: 1001; transition: 0.3s; padding: 35px 30px; display: flex; flex-direction: column; }
+        .sidebar-menu.active { left: 0; }
+        .sidebar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .sidebar-brand { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 700; letter-spacing: 3px; }
+        .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; }
+
+        .category-tabs { display: flex; gap: 20px; border-bottom: 1px solid #e2e2e2; padding-bottom: 14px; margin-bottom: 30px; }
+        .tab-btn { background: none; border: none; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; color: #888888; cursor: pointer; padding-bottom: 5px; }
+        .tab-btn.active { color: #000000; font-weight: 700; border-bottom: 2px solid #000000; }
+
+        .sidebar-links { list-style: none; }
+        .sidebar-links li { margin-bottom: 22px; }
+        .sidebar-links a { text-decoration: none; color: #222222; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+
+        .container { max-width: 1400px; margin: 50px auto; padding: 0 30px; }
+        .section-title { text-align: center; font-family: 'Cinzel', serif; font-size: 26px; letter-spacing: 3px; margin-bottom: 35px; }
+        .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        .product-card { background: #ffffff; cursor: pointer; }
+        
+        /* Card Link Styling Added */
+        .product-card-link { text-decoration: none; color: inherit; display: block; }
+
+        .card-image-box { position: relative; overflow: hidden; background: #f7f7f7; border-radius: 4px; }
+        .card-image-box img { width: 100%; height: 400px; object-fit: cover; display: block; transition: transform 0.5s ease; }
+        .product-card:hover img { transform: scale(1.05); }
+        .badge { position: absolute; top: 15px; left: 15px; background: #ffffff; padding: 4px 10px; font-size: 10px; font-weight: 600; border-radius: 3px; }
+        .product-info { padding: 15px 5px; }
+        .product-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #222222; }
+        .product-price { font-size: 14px; font-weight: 700; color: #111111; }
+
+        @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .product-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">Free Worldwide Shipping On Orders Above PKR 25,000</div>
+
+    <header class="main-header">
+        <div class="header-left">
+            <button class="icon-btn" id="menuToggleBtn"><i class="fas fa-bars"></i></button>
+            <button class="icon-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="brand-logo">
+            <a href="/">
+                <h1>RANG-E-FATIMA</h1>
+                <p>COLORS OF ELEGANCE</p>
+            </a>
+        </div>
+        <div class="header-right">
+            <a href="#" class="icon-btn"><i class="far fa-heart"></i></a>
+            <a href="#" class="icon-btn"><i class="far fa-user"></i></a>
+            <a href="#" class="icon-btn"><i class="fas fa-shopping-bag"></i></a>
+        </div>
+    </header>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-top">
+            <span class="sidebar-brand">RANG-E-FATIMA</span>
+            <button class="close-btn" id="closeSidebarBtn">&times;</button>
+        </div>
+        
+        <div class="category-tabs">
+            <button class="tab-btn" id="womenTabBtn" onclick="switchTab('women')">WOMEN</button>
+            <button class="tab-btn active" id="menTabBtn" onclick="switchTab('men')">MEN</button>
+        </div>
+
+        <div class="tab-content" id="womenTab" style="display: none;">
+            <ul class="sidebar-links">
+                <li><a href="/women">ALL WOMEN'S COLLECTION</a></li>
+                <li><a href="/women/lawn">LAWN COLLECTION <i class="fas fa-plus"></i></a></li>
+                <li><a href="/women/pret">PRET / READY TO WEAR <i class="fas fa-plus"></i></a></li>
+                <li><a href="/women/formal">FORMAL WEAR <i class="fas fa-plus"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="tab-content" id="menTab">
+            <ul class="sidebar-links">
+                <li><a href="/men">ALL MEN'S COLLECTION</a></li>
+                <li><a href="/men/cotton">COTTON FABRICS <i class="fas fa-plus"></i></a></li>
+                <li><a href="/men/washing-wear">WASHING WEAR <i class="fas fa-plus"></i></a></li>
+                <li><a href="/men/waistcoats">WAISTCOATS <i class="fas fa-plus"></i></a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="container">
+        <h2 class="section-title">{{ title if title else "MEN COLLECTION" }}</h2>
+        <div class="product-grid">
+            {% for item in products %}
+            <div class="product-card">
+                <!-- Product Detail Page Link Added -->
+                <a href="{{ url_for('product_detail', product_id=item.id) }}" class="product-card-link">
+                    <div class="card-image-box">
+                        <span class="badge">{{ item.tag }}</span>
+                        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.title }}">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">{{ item.title }}</h3>
+                        <p class="product-price">{{ item.price }}</p>
+                    </div>
+                </a>
+            </div>
+            {% else %}
+            <p>No products found in this category.</p>
+            {% endfor %}
+        </div>
+    </main>
+
+    <script>
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        menuToggleBtn.addEventListener('click', () => {
+            sidebarMenu.classList.add('active');
+            sidebarOverlay.classList.add('active');
+        });
+
+        function closeSidebar() {
+            sidebarMenu.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        }
+
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        function switchTab(category) {
+            const womenTab = document.getElementById('womenTab');
+            const menTab = document.getElementById('menTab');
+            const womenBtn = document.getElementById('womenTabBtn');
+            const menBtn = document.getElementById('menTabBtn');
+
+            if (category === 'women') {
+                womenTab.style.display = 'block';
+                menTab.style.display = 'none';
+                womenBtn.classList.add('active');
+                menBtn.classList.remove('active');
+            } else {
+                womenTab.style.display = 'none';
+                menTab.style.display = 'block';
+                menBtn.classList.add('active');
+                womenBtn.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

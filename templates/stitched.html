@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stitched Pret Collection | Rang-e-Fatima</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #111111;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid #eeeeee;
+            background: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-logo a {
+            text-decoration: none;
+            color: #111111;
+            text-align: center;
+            display: block;
+        }
+
+        .brand-logo h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .brand-logo p {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #666;
+            margin-top: -3px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #111111;
+            margin: 0 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .page-header-banner {
+            background: #fcf9f5;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 1px solid #ebebeb;
+        }
+
+        .page-header-banner h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            color: #1a1a1a;
+        }
+
+        .page-header-banner p {
+            font-size: 13px;
+            color: #777;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 30px;
+        }
+
+        .back-nav {
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+
+        .back-nav a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .product-card {
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        /* Product Card Link Style Added */
+        .product-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card-image-box {
+            position: relative;
+            overflow: hidden;
+            background: #f7f7f7;
+            border-radius: 6px;
+        }
+
+        .card-image-box img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #ffffff;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
+        .quick-add {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: bottom 0.3s ease;
+        }
+
+        .product-card:hover .quick-add {
+            bottom: 0;
+        }
+
+        .product-info {
+            padding: 15px 5px;
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #222222;
+        }
+
+        .product-details {
+            font-size: 11px;
+            color: #666666;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111111;
+        }
+
+        @media (max-width: 1024px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .product-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="/" class="icon-btn"><i class="fas fa-arrow-left"></i></a>
+        <div class="brand-logo">
+            <a href="/">
+                <h1>RANG-E-FATIMA</h1>
+                <p>COLORS OF ELEGANCE</p>
+            </a>
+        </div>
+        <div>
+            <a href="/" class="icon-btn"><i class="fas fa-home"></i></a>
+            <a href="#" class="icon-btn"><i class="fas fa-shopping-bag"></i></a>
+        </div>
+    </header>
+
+    <section class="page-header-banner">
+        <h1>READY TO WEAR / STITCHED COLLECTION</h1>
+        <p>Premium Ready-Made Pret Outfits | Perfect Fit & Tailored Elegance</p>
+    </section>
+
+    <main class="container">
+        <div class="back-nav">
+            <a href="/"><i class="fas fa-angle-left"></i> Back to Main Dashboard</a>
+        </div>
+
+        <div class="product-grid">
+            {% for item in products %}
+            <div class="product-card">
+                <!-- Product Detail Link Added Here -->
+                <a href="{{ url_for('product_detail', product_id=item.id) }}" class="product-card-link">
+                    <div class="card-image-box">
+                        <span class="badge">{{ item.tag }}</span>
+                        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.title }}">
+                        <div class="quick-add">QUICK ADD</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">{{ item.title }}</h3>
+                        <p class="product-details">{{ item.details }}</p>
+                        <p class="product-price">{{ item.price }}</p>
+                    </div>
+                </a>
+            </div>
+            {% else %}
+            <p>No Stitched Suits added yet.</p>
+            {% endfor %}
+        </div>
+    </main>
+
+</body>
+</html>

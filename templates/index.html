@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rang-e-Fatima | Colors of Elegance</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #111111;
+            overflow-x: hidden;
+        }
+
+        /* Top Announcement Bar */
+        .top-bar {
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Header Navigation */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 40px;
+            border-bottom: 1px solid #eeeeee;
+            background: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #111111;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .icon-btn:hover { color: #888888; }
+
+        .brand-logo a {
+            text-decoration: none;
+            color: #111111;
+            text-align: center;
+            display: block;
+        }
+
+        .brand-logo h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .brand-logo p {
+            font-size: 9px;
+            letter-spacing: 2.5px;
+            color: #666;
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- RIGHT SIDE SEARCH DRAWER (Maria.B Style) --- */
+        .search-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .search-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 420px;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 1100;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+            transition: right 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-overlay.active {
+            right: 0;
+        }
+
+        .search-drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .search-drawer-header h3 {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .close-search {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #111;
+            line-height: 1;
+        }
+
+        .search-body-content {
+            padding: 25px 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .search-input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #cccccc;
+            padding: 10px 15px;
+            margin-bottom: 25px;
+            border-radius: 2px;
+            background: #fff;
+        }
+
+        .search-input-group input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 13px;
+            color: #111;
+        }
+
+        .search-input-group button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            color: #111;
+        }
+
+        .suggestions-title {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #666;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .suggestions-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .suggestions-list li {
+            margin-bottom: 12px;
+        }
+
+        .suggestions-list li a {
+            text-decoration: none;
+            color: #222;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: color 0.2s;
+        }
+
+        .suggestions-list li a:hover {
+            color: #888;
+        }
+
+        /* Fast Live Search Results Item Styling Inside Drawer */
+        .live-search-results {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .live-search-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f2f2f2;
+            text-decoration: none;
+            color: #111;
+            transition: background 0.2s;
+        }
+
+        .live-search-item img {
+            width: 50px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .live-search-info h4 {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #111;
+        }
+
+        .live-search-info p {
+            font-size: 12px;
+            color: #444;
+            font-weight: 700;
+        }
+
+        /* --- SIDEBAR DRAWER (Menu) --- */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            left: -400px;
+            width: 380px;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 1001;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.08);
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 35px 30px;
+            overflow-y: auto;
+        }
+
+        .sidebar-menu.active { left: 0; }
+
+        .sidebar-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #000000;
+            text-transform: uppercase;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #111;
+            font-weight: 300;
+        }
+
+        .category-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            border-bottom: 1px solid #e2e2e2;
+            padding-bottom: 14px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .category-tabs::-webkit-scrollbar { display: none; }
+        .tab-item { display: flex; align-items: center; }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: #666666;
+            cursor: pointer;
+            padding: 0 10px;
+            position: relative;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        .tab-item:first-child .tab-btn { padding-left: 0; }
+        .tab-btn.active { color: #000000; font-weight: 700; }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #000000;
+        }
+        .tab-btn.special { color: #d90429; font-weight: 700; }
+        .tab-separator { color: #cccccc; font-size: 12px; font-weight: 300; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .sidebar-links { list-style: none; }
+        .sidebar-links li { margin-bottom: 22px; }
+        .sidebar-links a {
+            text-decoration: none;
+            color: #222222;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-links a:hover { color: #888888; }
+        .sidebar-links a i { font-size: 11px; color: #a8a8a8; }
+
+        /* Hero Banner */
+        .hero-section {
+            background: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600&auto=format&fit=crop') no-repeat center center/cover;
+            height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        .hero-content { position: relative; z-index: 1; }
+        .hero-content h2 { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 700; margin-bottom: 10px; letter-spacing: 3px; }
+        .hero-content p { font-size: 13px; letter-spacing: 2px; margin-bottom: 25px; font-weight: 400; text-transform: uppercase; }
+
+        .shop-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #ffffff;
+            color: #000000;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        .shop-btn:hover { background: #000000; color: #ffffff; }
+
+        /* Product Section Grid */
+        .container { max-width: 1400px; margin: 50px auto; padding: 0 30px; }
+        .section-title { text-align: center; font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 2px; margin-bottom: 35px; text-transform: uppercase; }
+        .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        .product-card { background: #ffffff; cursor: pointer; }
+
+        .product-card-link { text-decoration: none; color: inherit; display: block; }
+
+        .card-image-box { position: relative; overflow: hidden; background: #f7f7f7; border-radius: 4px; }
+        .card-image-box img { width: 100%; height: 400px; object-fit: cover; display: block; transition: transform 0.5s ease; }
+        .product-card:hover img { transform: scale(1.05); }
+
+        .badge { position: absolute; top: 15px; left: 15px; background: #ffffff; padding: 4px 10px; font-size: 10px; font-weight: 600; border-radius: 3px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .product-info { padding: 15px 5px; }
+        .product-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #222222; }
+        .product-details { font-size: 11px; color: #666666; margin-bottom: 6px; line-height: 1.4; }
+        .product-price { font-size: 14px; font-weight: 700; color: #111111; }
+
+        /* Footer */
+        footer {
+            background-color: #ffffff;
+            color: #111111;
+            padding: 60px 40px 30px 40px;
+            border-top: 1px solid #eeeeee;
+            margin-top: 80px;
+        }
+
+        .newsletter-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto 40px auto;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .newsletter-left h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .newsletter-left p { font-size: 13px; color: #666; }
+
+        .newsletter-form { display: flex; width: 100%; max-width: 480px; }
+        .newsletter-form input {
+            flex: 1; padding: 12px 18px; border: 1px solid #cccccc; border-right: none; outline: none; font-size: 13px;
+        }
+        .newsletter-form button {
+            background: #000000; color: #ffffff; border: none; padding: 12px 28px; font-size: 12px; font-weight: 700; letter-spacing: 1px; cursor: pointer; text-transform: uppercase;
+        }
+
+        .footer-divider { max-width: 1400px; margin: 0 auto 50px auto; border: none; border-top: 1px solid #eeeeee; }
+
+        .footer-content {
+            display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; max-width: 1400px; margin: 0 auto 50px auto;
+        }
+
+        .footer-col h4 { font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 20px; text-transform: uppercase; }
+        .footer-col h5 { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px; }
+        .footer-col p { font-size: 12px; color: #666; line-height: 1.8; margin-bottom: 6px; }
+
+        .footer-links-list { list-style: none; }
+        .footer-links-list li { margin-bottom: 12px; }
+        .footer-links-list a { text-decoration: none; color: #666; font-size: 12px; transition: color 0.3s; }
+        .footer-links-list a:hover { color: #000; }
+
+        .footer-bottom {
+            max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid #f7f7f7; font-size: 11.5px; color: #666; flex-wrap: wrap; gap: 15px;
+        }
+
+        .social-icons { display: flex; gap: 20px; }
+        .social-icons a { color: #111; font-size: 14px; text-decoration: none; }
+
+        @media (max-width: 900px) {
+            .footer-content { grid-template-columns: 1fr; }
+            .newsletter-section { flex-direction: column; align-items: flex-start; }
+            .newsletter-form { max-width: 100%; }
+            .search-overlay { width: 100%; right: -100%; }
+        }
+
+        @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .product-grid { grid-template-columns: 1fr; } .main-header { padding: 15px 20px; } }
+    </style>
+</head>
+<body>
+
+    <!-- Top Announcement -->
+    <div class="top-bar">
+        Free Worldwide Shipping On Orders Above PKR 25,000
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-left">
+            <button class="icon-btn" id="menuToggleBtn" aria-label="Open Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="icon-btn" id="searchToggleBtn" aria-label="Search">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <div class="brand-logo">
+            <a href="/">
+                <h1>RANG-E-FATIMA</h1>
+                <p>COLORS OF ELEGANCE</p>
+            </a>
+        </div>
+
+        <div class="header-right">
+            <a href="#" class="icon-btn" aria-label="Wishlist"><i class="far fa-heart"></i></a>
+            <a href="#" class="icon-btn" aria-label="Account"><i class="far fa-user"></i></a>
+            <a href="#" class="icon-btn" aria-label="Cart"><i class="fas fa-shopping-bag"></i></a>
+        </div>
+    </header>
+
+    <!-- Right Side Search Drawer & Backdrop -->
+    <div class="search-backdrop" id="searchBackdrop"></div>
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-drawer-header">
+            <h3>SEARCH YOUR FAVOURITE</h3>
+            <button class="close-search" id="closeSearchBtn">&times;</button>
+        </div>
+        
+        <div class="search-body-content">
+            <form action="{{ url_for('search_products') }}" method="GET" class="search-input-group">
+                <input type="text" id="liveSearchInput" name="q" placeholder="Search" autocomplete="off" required>
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+
+            <div id="defaultSuggestions">
+                <p class="suggestions-title">SUGGESTIONS FOR YOU</p>
+                <ul class="suggestions-list">
+                    <li><a href="/luxury">LUXURY WEAR</a></li>
+                    <li><a href="/unstitched">UNSTITCHED COLLECTION</a></li>
+                    <li><a href="/stitched">STITCHED / READY TO WEAR</a></li>
+                    <li><a href="/2pcs">2-PIECE COLLECTION</a></li>
+                    <li><a href="/3pcs">3-PIECE COLLECTION</a></li>
+                    <li><a href="/men-cotton">MEN'S COTTON</a></li>
+                    <li><a href="/washing-wear">WASHING WEAR</a></li>
+                </ul>
+            </div>
+
+            <!-- Fast Live Search Results Container -->
+            <div class="live-search-results" id="liveSearchResults"></div>
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay & Menu -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-top">
+            <span class="sidebar-brand">RANG-E-FATIMA</span>
+            <button class="close-btn" id="closeSidebarBtn">&times;</button>
+        </div>
+
+        <div class="category-tabs">
+            <div class="tab-item"><button class="tab-btn active" onclick="switchTab('women-tab', this)">WOMEN</button></div>
+            <span class="tab-separator">|</span>
+            <div class="tab-item"><button class="tab-btn" onclick="switchTab('men-tab', this)">MEN</button></div>
+            <span class="tab-separator">|</span>
+            <div class="tab-item"><button class="tab-btn special" onclick="switchTab('offers-tab', this)">SPECIAL OFFERS</button></div>
+        </div>
+
+        <div id="women-tab" class="tab-content active">
+            <ul class="sidebar-links">
+                <li><a href="/">NEW ARRIVALS</a></li>
+                <li><a href="/unstitched">UNSTITCHED <i class="fas fa-plus"></i></a></li>
+                <li><a href="/stitched">STITCHED / READY TO WEAR <i class="fas fa-plus"></i></a></li>
+                <li><a href="/2pcs">2-PIECE COLLECTION <i class="fas fa-plus"></i></a></li>
+                <li><a href="/3pcs">3-PIECE COLLECTION <i class="fas fa-plus"></i></a></li>
+                <li><a href="/luxury">LUXURY WEAR <i class="fas fa-plus"></i></a></li>
+            </ul>
+        </div>
+
+        <div id="men-tab" class="tab-content">
+            <ul class="sidebar-links">
+                <li><a href="/men-cotton">COTTON <i class="fas fa-plus"></i></a></li>
+                <li><a href="/washing-wear">WASHING WEAR <i class="fas fa-plus"></i></a></li>
+                <li><a href="#">WAISTCOATS <i class="fas fa-plus"></i></a></li>
+            </ul>
+        </div>
+
+        <div id="offers-tab" class="tab-content">
+            <ul class="sidebar-links">
+                <li><a href="#" style="color: #d90429;">FLAT 30% OFF SALE</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Hero Banner -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2>CASUAL & FESTIVE COLLECTION</h2>
+            <p>Elegance Redefined for Every Season</p>
+            <a href="/unstitched" class="shop-btn">EXPLORE NOW</a>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Product List -->
+    <main class="container">
+        <h2 class="section-title">FEATURED ARRIVALS</h2>
+        <div class="product-grid">
+            {% for item in products %}
+            <div class="product-card">
+                <a href="{{ url_for('product_detail', product_id=item.id) }}" class="product-card-link">
+                    <div class="card-image-box">
+                        <span class="badge">{{ item.tag }}</span>
+                        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.title }}">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">{{ item.title }}</h3>
+                        <p class="product-details">{{ item.details }}</p>
+                        <p class="product-price">{{ item.price }}</p>
+                    </div>
+                </a>
+            </div>
+            {% else %}
+            <p>No products available right now.</p>
+            {% endfor %}
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="newsletter-section">
+            <div class="newsletter-left">
+                <h3>Join our newsletter</h3>
+                <p>We'll send you updates once per week.</p>
+            </div>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Enter your email">
+                <button type="submit">Subscribe</button>
+            </div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>RANG-E-FATIMA</h4>
+                <p>5.5 KM, Raiwind Road (Near Fatehbad Village)</p>
+                <p>Lahore, Pakistan.</p>
+                <p style="margin-top: 15px;">Call: +923111162742</p>
+                <p>WhatsApp: +923154001915</p>
+            </div>
+            <div class="footer-col">
+                <h5>Information</h5>
+                <ul class="footer-links-list">
+                    <li><a href="#">Returns and Exchange</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Customer Care</h5>
+                <ul class="footer-links-list">
+                    <li><a href="#">About Rang-e-Fatima</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026, Rang-e-Fatima Designs (PK). All rights reserved.</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Sidebar, Tabs, & Fast Live Search -->
+    <script>
+        // Sidebar Menu Control
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function openSidebar() {
+            sidebarMenu.classList.add('active');
+            sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebarMenu.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        menuToggleBtn.addEventListener('click', openSidebar);
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+        }
+
+        // Right Side Search Drawer Control & Fast Live Search
+        const searchToggleBtn = document.getElementById('searchToggleBtn');
+        const searchOverlay = document.getElementById('searchOverlay');
+        const searchBackdrop = document.getElementById('searchBackdrop');
+        const closeSearchBtn = document.getElementById('closeSearchBtn');
+        const liveSearchInput = document.getElementById('liveSearchInput');
+        const liveSearchResults = document.getElementById('liveSearchResults');
+        const defaultSuggestions = document.getElementById('defaultSuggestions');
+
+        function openSearchDrawer() {
+            searchOverlay.classList.add('active');
+            searchBackdrop.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            liveSearchInput.focus();
+        }
+
+        function closeSearchDrawer() {
+            searchOverlay.classList.remove('active');
+            searchBackdrop.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            liveSearchInput.value = '';
+            liveSearchResults.innerHTML = '';
+            defaultSuggestions.style.display = 'block';
+        }
+
+        searchToggleBtn.addEventListener('click', openSearchDrawer);
+        closeSearchBtn.addEventListener('click', closeSearchDrawer);
+        searchBackdrop.addEventListener('click', closeSearchDrawer);
+
+        // Fast Live Search AJAX Event
+        let searchTimeout;
+        liveSearchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+
+            if (query.length === 0) {
+                liveSearchResults.innerHTML = '';
+                defaultSuggestions.style.display = 'block';
+                return;
+            }
+
+            searchTimeout = setTimeout(() => {
+                fetch(`/live-search?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        defaultSuggestions.style.display = 'none';
+                        liveSearchResults.innerHTML = '';
+                        
+                        if (data.length === 0) {
+                            liveSearchResults.innerHTML = '<p style="padding: 10px 0; font-size: 13px; color: #666;">No products found</p>';
+                            return;
+                        }
+
+                        data.forEach(product => {
+                            const item = document.createElement('a');
+                            item.href = `/product/${product.id}`;
+                            item.className = 'live-search-item';
+                            item.innerHTML = `
+                                <img src="/static/${product.image}" alt="${product.title}">
+                                <div class="live-search-info">
+                                    <h4>${product.title}</h4>
+                                    <p>${product.price}</p>
+                                </div>
+                            `;
+                            liveSearchResults.appendChild(item);
+                        });
+                    })
+                    .catch(err => console.error('Live search error:', err));
+            }, 150);
+        });
+    </script>
+</body>
+</html>

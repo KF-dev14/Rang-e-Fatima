@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.title }} - Brand Store</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #fff; color: #111; }
+        .thumb-img { cursor: pointer; border: 1px solid #ddd; border-radius: 6px; transition: 0.3s; }
+        .thumb-img:hover, .thumb-img.active { border-color: #000; }
+        .main-image { width: 100%; max-height: 550px; object-fit: cover; border-radius: 6px; }
+        .color-swatch { width: 30px; height: 30px; border-radius: 50%; display: inline-block; cursor: pointer; border: 2px solid #ddd; margin-right: 8px; }
+        .color-swatch.active { border-color: #000; transform: scale(1.1); }
+        .box-option { border: 1px solid #ccc; padding: 6px 12px; cursor: pointer; border-radius: 6px; text-align: center; font-weight: bold; font-size: 13px; }
+        .box-option.selected { border-color: #000; background-color: #f8f9fa; }
+        
+        /* Small and Rounded Professional Buttons */
+        .btn-add-cart {
+            background-color: #000;
+            color: #fff;
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+        .btn-add-cart:hover { background-color: #333; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">BRAND STORE</a>
+            <div class="ms-auto">
+                <a href="/" class="text-dark text-decoration-none me-3">Home</a>
+                <a href="{{ url_for('view_cart') }}" class="text-dark text-decoration-none fw-semibold">Cart</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row align-items-center">
+            <!-- Left Side: Product Images Gallery -->
+            <div class="col-md-7 mb-4">
+                <div class="row">
+                    <div class="col-3 d-flex flex-column gap-3">
+                        <img src="{{ url_for('static', filename=product.image) }}" class="thumb-img active img-fluid" onclick="changeImage(this)">
+                        <img src="{{ url_for('static', filename=product.image) }}" class="thumb-img img-fluid" onclick="changeImage(this)">
+                        <img src="{{ url_for('static', filename=product.image) }}" class="thumb-img img-fluid" onclick="changeImage(this)">
+                    </div>
+                    <div class="col-9">
+                        <img id="mainProductImg" src="{{ url_for('static', filename=product.image) }}" class="main-image shadow-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Product Details & Form -->
+            <div class="col-md-5">
+                <h2 class="fw-bold mb-2">{{ product.title }}</h2>
+                <h4 class="text-dark fw-semibold mb-3">{{ product.price }}</h4>
+                <span class="badge bg-dark mb-3 px-3 py-2 rounded-pill">{{ product.tag }}</span>
+                
+                <p class="text-muted mb-4 small">{{ product.details }}</p>
+
+                <hr>
+
+                <!-- Color Selection -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-uppercase">Color: <span id="selectedColorName" class="fw-normal text-muted">Matte Black</span></label><br>
+                    <div class="d-flex align-items-center mt-1">
+                        <span class="color-swatch active" style="background-color: #111;" onclick="selectColor(this, 'Matte Black')"></span>
+                        <span class="color-swatch" style="background-color: #4a5d4e;" onclick="selectColor(this, 'Olive Green')"></span>
+                        <span class="color-swatch" style="background-color: #5c6f84;" onclick="selectColor(this, 'Slate Grey')"></span>
+                        <span class="color-swatch" style="background-color: #3b2f2f;" onclick="selectColor(this, 'Dark Brown')"></span>
+                    </div>
+                </div>
+
+                <!-- Box Packaging Options -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-uppercase">Packaging Option</label>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="box-option selected" id="optWithoutBox" onclick="selectBox('without')">Without Box</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="box-option" id="optWithBox" onclick="selectBox('with')">With Box <small class="text-muted">(+Rs 400)</small></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add to Cart Form (Centered, Rounded, No Quantity) -->
+                <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST">
+                    <div class="d-flex justify-content-center mb-4">
+                        <button type="submit" class="btn btn-add-cart text-uppercase shadow-sm">Add to Cart</button>
+                    </div>
+                </form>
+
+                <!-- Accordion Sections -->
+                <div class="accordion border-top pt-3" id="productAccordion">
+                    <div class="accordion-item border-0 border-bottom">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed shadow-none bg-transparent px-0 fw-bold small" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDesc">
+                                DESCRIPTION
+                            </button>
+                        </h2>
+                        <div id="collapseDesc" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                            <div class="accordion-body px-0 text-muted small">
+                                Premium quality fabric crafted with precision. Designed for absolute comfort and a sophisticated look.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0 border-bottom">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed shadow-none bg-transparent px-0 fw-bold small" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWash">
+                                WASH & CARE
+                            </button>
+                        </h2>
+                        <div id="collapseWash" class="accordion-collapse collapse" data-bs-parent="productAccordion">
+                            <div class="accordion-body px-0 text-muted small">
+                                * Do not bleach.<br>* Machine wash cold with like colors.<br>* Line dry in shade.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function changeImage(element) {
+            document.querySelectorAll('.thumb-img').forEach(img => img.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('mainProductImg').src = element.src;
+        }
+
+        function selectColor(element, colorName) {
+            document.querySelectorAll('.color-swatch').forEach(swatch => swatch.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('selectedColorName').innerText = colorName;
+        }
+
+        function selectBox(type) {
+            if(type === 'without') {
+                document.getElementById('optWithoutBox').classList.add('selected');
+                document.getElementById('optWithBox').classList.remove('selected');
+            } else {
+                document.getElementById('optWithBox').classList.add('selected');
+                document.getElementById('optWithoutBox').classList.remove('selected');
+            }
+        }
+    </script>
+</body>
+</html>
