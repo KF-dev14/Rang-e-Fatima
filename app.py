@@ -1,11 +1,16 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'rang_e_fatima_secret_key' # Flash messages aur sessions ke liye zaroori hai
 
-# Database Configuration (SQLite)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rang_e_fatima.db'
+# Database Configuration (Vercel ke liye /tmp folder aur local ke liye standard path)
+if os.environ.get('VERCEL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/rang_e_fatima.db'
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rang_e_fatima.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -175,6 +180,11 @@ def seed_database():
         db.session.commit()
         print("Database seeded with initial products successfully!")
 
+# Ensure database tables are created at startup for serverless (Vercel)
+with app.app_context():
+    db.create_all()
+    seed_database()
+
 # Routes
 @app.route('/')
 def home():
@@ -234,7 +244,6 @@ def view_cart():
 
 @app.route('/add-to-cart/<int:product_id>', methods=['POST'])
 def add_to_cart(product_id):
-    # Quantity is fixed to 1 since quantity selector was removed
     cart_item = CartItem.query.filter_by(product_id=product_id).first()
     if cart_item:
         cart_item.quantity += 1
@@ -315,7 +324,4 @@ def live_search():
     return jsonify([p.to_dict() for p in results])
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        seed_database()
     app.run(debug=True)
